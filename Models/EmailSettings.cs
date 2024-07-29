@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Books.App.Services.Interfaces;
-using Books.App.Interfaces;
+using Books.Services.Interface;
 
 namespace Books.Models
 {
