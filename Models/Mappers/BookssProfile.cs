@@ -4,9 +4,9 @@ using Books.Models.DTOs;
 
 namespace Store.ApplicationCore.Mappings
 {
-  public class StudentProfile : Profile
+  public class BooksProfile : Profile
   {
-    public StudentProfile()
+    public BooksProfile()
     {
       CreateMap<Book, BookDTO>();
       CreateMap<BookDTO, Book>();
