@@ -10,5 +10,6 @@ namespace Books.Models
         public int Id { get; set; }
         public string? Names { get; set; }
         public UserData? UserDatas { get; set; }
+        public ICollection<BookBorrow>? BookBorrows { get; set; }
     }
 }
