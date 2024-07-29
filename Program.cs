@@ -1,4 +1,7 @@
 using Books.Infrastructure.Data;
+using Books.Models;
+using Books.Validators;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +14,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BaseContext>(options => options.UseMySql(
                         builder.Configuration.GetConnectionString("DbConnection"),
                         Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")));
+
+builder.Services.AddTransient<IValidator<User>, UserValidator>();
+builder.Services.AddTransient<IValidator<UserData>, UserDataValidator>();
+builder.Services.AddTransient<IValidator<Book>, BookValidator>();
+builder.Services.AddTransient<IValidator<Autor>, AutorValidator>();
 
 var app = builder.Build();
 
