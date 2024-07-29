@@ -1,9 +1,9 @@
 using Books.Infrastructure.Data;
 using Books.Models;
+using Books.Models.Mappers;
 using Books.Validators;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Store.ApplicationCore.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -22,7 +22,12 @@ builder.Services.AddTransient<IValidator<UserData>, UserDataValidator>();
 builder.Services.AddTransient<IValidator<Book>, BookValidator>();
 builder.Services.AddTransient<IValidator<Autor>, AutorValidator>();
 
+builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+
+builder.Services.AddAutoMapper(typeof(BooksProfile));
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -35,5 +40,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.UseAuthentication();
+app.MapControllers();    
 
 app.Run();

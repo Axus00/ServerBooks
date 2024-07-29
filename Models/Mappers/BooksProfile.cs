@@ -2,7 +2,7 @@ using AutoMapper;
 using Books.Models;
 using Books.Models.DTOs;
 
-namespace Store.ApplicationCore.Mappings
+namespace Books.Models.Mappers
 {
   public class BooksProfile : Profile
   {

@@ -4,6 +4,6 @@ namespace Books.Models.DTOs
   {
     public string? Name {get; set;}
     public int AuthorId { get; }
-    public Autor? Authors { get; }
+    // public Autor? Authors { get; }
   }
 }

@@ -9,8 +9,8 @@ namespace Books.App.Controllers.Books
   // others classes, don't know about this one
   public class BooksController: ControllerBase
   {
-    private readonly BooksRepository _booksRepository;
-    public BooksController(BooksRepository studentsService)
+    private readonly IBooksRepository _booksRepository;
+    public BooksController(IBooksRepository studentsService)
     {
       _booksRepository = studentsService;
     }
@@ -26,5 +26,6 @@ namespace Books.App.Controllers.Books
     {
       return await _booksRepository.GetByIdAsync(Id);
     }
+
   }
 }
