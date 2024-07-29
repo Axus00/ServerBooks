@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Books.Models;
 
-namespace ServerBooks.Models
+namespace Books.Models
 {
     public class BookBorrow
     {

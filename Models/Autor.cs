@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace ServerBooks.Models
+namespace Books.Models
 {
     public class Autor
     {       
