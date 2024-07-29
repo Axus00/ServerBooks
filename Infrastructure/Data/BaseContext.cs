@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Books.Models;
+using DocumentFormat.OpenXml.Bibliography;
+using ServerBooks.Models;
 
 namespace Books.Infrastructure.Data
 {
@@ -16,5 +18,8 @@ namespace Books.Infrastructure.Data
 
         //Models
         public DbSet<User> Users { get; set; }
+        public DbSet<Autor> Authors { get; set; }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<BookBorrow> BookBorrows { get; set; }
     }
 }
