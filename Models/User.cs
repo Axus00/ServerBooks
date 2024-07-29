@@ -7,6 +7,11 @@ namespace Books.Models
 {
     public class User
     {
+        public enum Status
+        {
+            Active,
+            Removed
+        }
         public int Id { get; set; }
         public string? Names { get; set; }
         public UserData? UserDatas { get; set; }

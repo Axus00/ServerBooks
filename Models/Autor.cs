@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 namespace Books.Models
 {
     public class Autor
-    {       
+    { 
+        public enum Status
+        {
+            Active,
+            Removed
+        }
         public int Id {get; set;}
         public string? Name {get; set;}
 
