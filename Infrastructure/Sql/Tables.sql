@@ -1,6 +1,8 @@
+-- Active: 1722290006205@@127.0.0.1@3306@bokgtp7j8jg7rk6dcziu
 CREATE TABLE Users (
     Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL
+    Name VARCHAR(255) NOT NULL,
+    Status ENUM("Active", "Removed")
 );
 
 CREATE TABLE UserDatas (
@@ -26,7 +28,8 @@ CREATE TABLE UserRole (
 
 CREATE TABLE Author (
     Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Name VARCHAR(45) NOT NULL
+    Name VARCHAR(45) NOT NULL,
+    Status ENUM("Active", "Removed")
 );
 
 CREATE TABLE Books (
@@ -34,6 +37,7 @@ CREATE TABLE Books (
     Name VARCHAR(255) NOT NULL,
     AuthorId INT NOT NULL,
     Quantity INT NOT NULL,
+    Status ENUM("Active", "Removed"),
     FOREIGN KEY (AuthorId) REFERENCES Author(Id)
 );
 

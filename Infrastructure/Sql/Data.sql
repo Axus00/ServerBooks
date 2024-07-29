@@ -1,10 +1,10 @@
 -- Insert sample data into Users
-INSERT INTO Users (Name) VALUES 
-('Alice Johnson'),
-('Bob Smith'),
-('Carol Davis'),
-('David Brown'),
-('Emma Wilson');
+INSERT INTO Users (Name, Status) VALUES 
+('Alice Johnson', 'Active'),
+('Bob Smith', 'Active'),
+('Carol Davis', 'Active'),
+('David Brown', 'Active'),
+('Emma Wilson', 'Active');
 
 -- Insert sample data into UserDatas
 INSERT INTO UserDatas (Email, Phone, UserId) VALUES 
@@ -28,20 +28,20 @@ INSERT INTO UserRole (UserId, RoleId) VALUES
 (5, 2);
 
 -- Insert sample data into Author
-INSERT INTO Author (Name) VALUES 
-('Mark Twain'),
-('Jane Austen'),
-('George Orwell'),
-('J.K. Rowling'),
-('Ernest Hemingway');
+INSERT INTO Author (Name, status) VALUES 
+('Mark Twain', "Active"),
+('Jane Austen', "Active"),
+('George Orwell', "Active"),
+('J.K. Rowling', "Active"),
+('Ernest Hemingway', "Active");
 
 -- Insert sample data into Books
-INSERT INTO Books (Name, AuthorId, Quantity) VALUES 
-('The Adventures of Tom Sawyer', 1, 10),
-('Pride and Prejudice', 2, 8),
-('1984', 3, 5),
-('Harry Potter and the Sorcerer''s Stone', 4, 12),
-('The Old Man and the Sea', 5, 7);
+INSERT INTO Books (Name, AuthorId, Quantity, status) VALUES 
+('The Adventures of Tom Sawyer', 1, 10, "Active"),
+('Pride and Prejudice', 2, 8, "Active"),
+('1984', 3, 5, "Active"),
+('Harry Potter and the Sorcerer''s Stone', 4, 12, "Active"),
+('The Old Man and the Sea', 5, 7, "Active");
 
 -- Insert sample data into BooksBorrow
 INSERT INTO BooksBorrow (UserId, BookId, BorrowStatus, StartDate, EndDate) VALUES 
