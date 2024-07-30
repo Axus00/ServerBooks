@@ -25,6 +25,7 @@ public class BooksRepository : IBooksRepository
   {
     var data = await _context.Books
       .AsNoTracking()
+      .Where(b => b.Status == StatusEnum.Active)
       .Include(b => b.Authors)
       .ToListAsync();
 
@@ -33,13 +34,17 @@ public class BooksRepository : IBooksRepository
 
   public async Task<BookDTO> GetByIdAsync(int id)
   {
-    Book book = await _context.Books.FindAsync(id);
+    Book book = await _context.Books
+      .Include(b => b.Authors)
+      .FirstOrDefaultAsync(b => b.Id == id);
     return _mapper.Map<BookDTO>(book);
   }
 
   public async Task<BookDTO> CreateAsync(BookDTO bookDTO)
   {
-    Books.Models.Author existAuthor = await _authorsRepository.FindByName(bookDTO.Author);
+    Books.Models.Author existAuthor = await GetAuthor(bookDTO.Author);
+
+    // Tirar excepcion si el autor no existe
     if (existAuthor == null) 
       return null;
 
@@ -58,8 +63,13 @@ public class BooksRepository : IBooksRepository
     if (existingBook == null) 
       return null;
 
-    existingBook = _mapper.Map<Book>(book);
+    Books.Models.Author existAuthor = await GetAuthor(book.Author);
+    if (existAuthor == null) 
+      return null;
 
+    existingBook = _mapper.Map<BookDTO, Book>(book, existingBook);
+    existingBook.AuthorId = existAuthor.Id;
+    
     _context.Books.Update(existingBook);
     await _context.SaveChangesAsync();
     return book;
@@ -67,15 +77,20 @@ public class BooksRepository : IBooksRepository
 
   public async Task<int> DeleteAsync(int id)
   {
-    throw new NotImplementedException();
-    // Book book = await _context.Books.FindAsync(id);
-    // if (book == null)
-    //   return 0;
+    // throw new NotImplementedException();
+    Book book = await _context.Books.FindAsync(id);
+    if (book == null)
+      return 0;
 
-    // book.
-    // // Se debe realizar una soft deletion
+    book.Status = StatusEnum.Removed;
 
-    // _context.Books.Remove(book);
-    // return await _context.SaveChangesAsync();
+    _context.Books.Update(book);
+    return await _context.SaveChangesAsync();
   }
+
+  private async Task<Books.Models.Author> GetAuthor(string authorName)
+  {
+    return await _authorsRepository.FindByName(authorName); 
+  } 
+
 }
