@@ -4,13 +4,16 @@ using Books.Models.Mappers;
 using Books.Validators;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Books.Models;
-using AutoMapper;
 using Books.Utils.Profiles;
 using Books.Services.Interface;
 using Books.Services.Repository;
-using MailKit;
+using Books.Models.Dtos;
+using Books.Models.DTOs;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -23,6 +26,25 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BaseContext>(options => options.UseMySql(
                         builder.Configuration.GetConnectionString("DbConnection"),
                         Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")));
+
+
+//JWT
+builder.Services.AddAuthentication(opt => {
+        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(configure => {
+        configure.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = @Environment.GetEnvironmentVariable("JwtToken"),
+            ValidAudience = @Environment.GetEnvironmentVariable("JwtToken"),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(@Environment.GetEnvironmentVariable("SecretKey")))
+        };
+    });
 
 // Configuration of the Interface that we will be used
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -39,10 +61,9 @@ builder.Services.AddAutoMapper(typeof(UsersProfile));
 builder.Services.AddControllers();
 
 
-builder.Services.AddTransient<IValidator<User>, UserValidator>();
-builder.Services.AddTransient<IValidator<UserData>, UserDataValidator>();
-builder.Services.AddTransient<IValidator<Book>, BookValidator>();
-builder.Services.AddTransient<IValidator<Autor>, AutorValidator>();
+builder.Services.AddTransient<IValidator<UserDto>, UserDtoValidator>();
+builder.Services.AddTransient<IValidator<BookDTO>, BookDtoValidator>();
+builder.Services.AddTransient<IValidator<AuthorDTO>, AutorDtoValidator>();
 
 
 builder.Services.AddAutoMapper(typeof(BooksProfile));
