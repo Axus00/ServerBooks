@@ -14,6 +14,13 @@ INSERT INTO UserDatas (Email, Phone, UserId) VALUES
 ('david.brown@example.com', '555-4321', 4),
 ('emma.wilson@example.com', '555-9876', 5);
 
+UPDATE UserDatas SET Password = 'password1' WHERE UserId = 1;
+UPDATE UserDatas SET Password = 'password2' WHERE UserId = 2;
+UPDATE UserDatas SET Password = 'password3' WHERE UserId = 3;
+UPDATE UserDatas SET Password = 'password4' WHERE UserId = 4;
+UPDATE UserDatas SET Password = 'password5' WHERE UserId = 5;
+
+
 -- Insert sample data into Role
 INSERT INTO Role (Type) VALUES 
 ('Customer'),

@@ -1,4 +1,5 @@
 using Books.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Books.App.Controllers.Books
@@ -16,12 +17,13 @@ namespace Books.App.Controllers.Books
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IEnumerable<BookDTO>> GetAll()
     {
       return await _booksRepository.GetAllAsync();
     }
 
-    [HttpGet("{Id}")]
+    [HttpGet("{id}")]
     public async Task<BookDTO> GetById(int Id)
     {
       return await _booksRepository.GetByIdAsync(Id);
