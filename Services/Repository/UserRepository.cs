@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Books.Infrastructure.Data;
 using Books.Models;
-using Books.Models.Dtos;
+using Books.Models.DTOs;
 using Books.Services.Interface;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Books.Services.Repository
 {
@@ -69,7 +70,7 @@ namespace Books.Services.Repository
             var user = await _context.Users.FindAsync(id);
             if (user == null) return null;
 
-            _mapper.Map(userDto, user);
+            _mapper.Map(userDTO, user);
             await _context.SaveChangesAsync();
             return user;
         }
@@ -77,14 +78,29 @@ namespace Books.Services.Repository
         public async Task<User> DeleteUserAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user), "user not found");
-            } 
+            if (user == null) return null;
 
-            user.Status = "Removed"; // Asegúrate de que la propiedad Status exista en User
+            if (user.Status != "Removed")
+            {
+                user.Status = "Removed"; 
+                await _context.SaveChangesAsync();
+            }
+
+            return user;
+        }
+
+        //Register 
+        public async Task<User> CreateUserAsync(UserDTO userDTO)
+        {
+            // Se encripta la contraseña
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
+            userDTO.Password = hashedPassword;
+            
+            var user = _mapper.Map<User>(userDTO);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;
         }
+
     }
 }

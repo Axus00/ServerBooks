@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Books.Models;
 using Microsoft.EntityFrameworkCore;
-using Books.Models.Dtos;
+using Books.Models.DTOs;
 
 namespace Books.Services.Interface
 {
@@ -10,8 +10,8 @@ namespace Books.Services.Interface
     {
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(int id);
-        Task<User> CreateUserAsync(UserDto userDto);
-        Task<User> UpdateUserAsync(int id, UserDto userDto);
+        Task<User> CreateUserAsync(UserDTO userDTO);
+        Task<User> UpdateUserAsync(int id, UserDTO userDTO);
         Task<User> DeleteUserAsync(int id);
     }
 }
