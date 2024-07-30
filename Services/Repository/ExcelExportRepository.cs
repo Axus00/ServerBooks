@@ -22,17 +22,14 @@ namespace Books.Services.Repository
 
         public byte[] ExportExcelCustomer(int id)
         {
-            //Obtain the loans by customer id
             ICollection<BookBorrow> registers = _context.BookBorrows
             .Where(option => option.UserId == id)
             .Include(u => u.Books)
              .ThenInclude(b => b.Authors)
             .ToList();
 
-            //Create a new DataTable to store the data
             DataTable table = new DataTable();
 
-            //Add columns to the DataTable
             table.Columns.AddRange(new DataColumn[] {
                 new DataColumn("Book Title"),
                 new DataColumn("Book Author"),
@@ -40,19 +37,15 @@ namespace Books.Services.Repository
                 new DataColumn("EndDate"),
             });
 
-            //Fill the DataTable with the data
             foreach (var register in registers)
             {
                 table.Rows.Add( register.Books!.Name, register.Books!.Authors!.Name, register.StartDate, register.EndDate);
             }
 
-            //Create a new Excel workbook and add the DataTable to it
             using (XLWorkbook workbook = new XLWorkbook())
             {
-                //Create the sheet with the data
                 workbook.Worksheets.Add(table, "Borrowed Books");
 
-                //Save the Excel file to a memory stream and return it as a byte array
                 using (MemoryStream stream = new MemoryStream())
                 {
                     workbook.SaveAs(stream);
@@ -63,6 +56,60 @@ namespace Books.Services.Repository
             
         }
 
+        public byte[] ExportExcelAdmin()
+        {
+            ICollection<Book> books = _context.Books
+            .Include(b => b.Authors)
+            .ToList();
+
+            ICollection<UserData> usersData = _context.UserDatas
+            .Include(u => u.User)
+            .ToList();
+
+            DataTable tableBooks = new DataTable(); 
+            DataTable tableUsers = new DataTable();
+           
+            tableBooks.Columns.AddRange(new DataColumn[] 
+            {
+                new DataColumn("Book Title"),
+                new DataColumn("Book Author"), 
+                new DataColumn("Books Quantities "), 
+                new DataColumn("Books Status "), 
+             });
+            
+
+
+            foreach (var register in books)
+            {
+                tableBooks.Rows.Add(register.Name, register.Authors!.Name, register.Quantity, register.Status);
+            }
+
+            tableUsers.Columns.AddRange(new DataColumn[] 
+            {
+                new DataColumn("User Name"),
+                new DataColumn("User Email"),
+                new DataColumn("User Phone"),
+                new DataColumn("User Status")
+            });
+
+            foreach (var register in usersData)
+            {
+                tableUsers.Rows.Add(register.User!.Names, register.Email, register.Phone, register.User.Status);
+            }
+
+            using (XLWorkbook workbook = new XLWorkbook())
+            {
+                workbook.Worksheets.Add(tableUsers, "Customers");
+                workbook.Worksheets.Add(tableBooks, "Books");
+
+                using (MemoryStream stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return content;
+                }
+            }
+        }
         
 
     }

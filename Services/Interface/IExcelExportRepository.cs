@@ -7,7 +7,8 @@ namespace Books.Services.Interface
 {
     public interface IExcelExportRepository
     {
-        byte[] ExportExcelCustomer(int id); //SELECT * FROM 
+        byte[] ExportExcelCustomer(int id);
 
+        byte[] ExportExcelAdmin();
     }
 }
