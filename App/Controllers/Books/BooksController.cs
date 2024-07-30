@@ -1,9 +1,11 @@
 using Books.Models.DTOs;
 using Books.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Books.Services.Interface;
+using Books.Services.Repository;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Books.App.Controllers.Books
+namespace Books.App.Controllers
 {
   [Route("api/books")]
   [ApiController]

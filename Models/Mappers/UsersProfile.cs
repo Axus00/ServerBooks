@@ -1,6 +1,6 @@
 using AutoMapper;
 using Books.Models;
-using Books.Models.Dtos;
+using Books.Models.DTOs;
 
 namespace Books.Utils.Profiles
 {
@@ -8,8 +8,8 @@ namespace Books.Utils.Profiles
     {
         public UsersProfile()
         {
-            CreateMap<UserDto, User>().ForAllMembers(options => options.Condition((src, dest, srcMember) => srcMember != null));
-            CreateMap<AdminUserDto, User>().ForAllMembers(options => options.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<UserDTO, User>().ForAllMembers(options => options.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<AdminUserDTO, User>().ForAllMembers(options => options.Condition((src, dest, srcMember) => srcMember != null));
         }
     }
 }

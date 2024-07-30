@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Books.Models;
-using Books.Models.Dtos;
+using Books.Models.DTOs;
 using FluentValidation;
 
 namespace Books.Validators
 {
-    public class UserDtoValidator : AbstractValidator<UserDto>
+    public class UserDTOValidator : AbstractValidator<UserDTO>
     {
-        public UserDtoValidator()
+        public UserDTOValidator()
         {
             Include(new UserNameRule());
             Include(new UserEmailRule());
@@ -19,7 +19,7 @@ namespace Books.Validators
         }
 
         //Start Validations
-        public class UserNameRule : AbstractValidator<UserDto>
+        public class UserNameRule : AbstractValidator<UserDTO>
         {
             private readonly List<string> OfensiveNames = new List<string>
             {
@@ -28,13 +28,13 @@ namespace Books.Validators
             public UserNameRule()
             {
 
-                RuleFor(user => user.Name).NotNull().WithMessage("The field Names is required");
+                RuleFor(user => user.Names).NotNull().WithMessage("The field Names is required");
 
-                RuleFor(user => user.Name).Must(Names => !OfensiveNames.Contains(Names)).WithMessage("You can't put Last Name ofensive");
+                RuleFor(user => user.Names).Must(Names => !OfensiveNames.Contains(Names)).WithMessage("You can't put Last Name ofensive");
             }
         }
 
-        public class UserEmailRule : AbstractValidator<UserDto>
+        public class UserEmailRule : AbstractValidator<UserDTO>
         {
             public UserEmailRule()
             {
@@ -44,7 +44,7 @@ namespace Books.Validators
             }
         }
 
-        public class UserPhoneRule : AbstractValidator<UserDto>
+        public class UserPhoneRule : AbstractValidator<UserDTO>
         {
             public UserPhoneRule()
             {

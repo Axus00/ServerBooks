@@ -7,13 +7,9 @@ namespace Books.Models
 {
     public class Role
     {
-        public int Id {get; set; }
-        public  enum Type
-        {
-            Customer,
-            Admin
+        public int Id { get; set; }
 
-        }
+        public string Type { get; set; }
 
         public UserRole? UserRoles { get; set; }
     }

@@ -1,20 +1,20 @@
-using AutoMapper;
-using Books.Models;
-using Books.Models.DTOs;
+  using AutoMapper;
+  using Books.Models;
+  using Books.Models.DTOs;
 
-namespace Books.Models.Mappers
-{
-  public class BooksProfile : Profile
+  namespace Books.Models.Mappers
   {
-    public BooksProfile()
+    public class BooksProfile : Profile
     {
-      CreateMap<Book, BookDTO>()
-        .ForMember(dest =>
-          dest.Author,
-          opt => opt.MapFrom(src => src.Authors.Name)
-        );
-      CreateMap<BookDTO, Book>();
-      // CreateMap<Book, AuthorDTO>();
+      public BooksProfile()
+      {
+        CreateMap<Book, BookDTO>()
+          .ForMember(dest =>
+            dest.Author,
+            opt => opt.MapFrom(src => src.Authors.Name)
+          );
+        CreateMap<BookDTO, Book>();
+        // CreateMap<Book, AuthorDTO>();
+      }
     }
   }
-}

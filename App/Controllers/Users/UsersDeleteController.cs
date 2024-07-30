@@ -1,28 +1,43 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Books.Services.Interface;
-using Books.Services.Repository;
-using Books.Models.Dtos;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Books.Services.Interface;
+    using Books.Services.Repository;
+    using Books.Models.DTOs;
+    using Microsoft.AspNetCore.Authorization;
 
-namespace Books.App.Controllers
-{
-    public class UsersDeleteController : ControllerBase
+    namespace Books.App.Controllers
     {
-        private readonly IUserRepository _usersRepository;
-
-        public UsersDeleteController(IUserRepository usersRepository){
-            _usersRepository = usersRepository;
-        } 
-
-        [HttpDelete]
-        [Route("api/users/{id}/delete")]
-        public IActionResult DeleteUser(int id)
+        public class UsersDeleteController : ControllerBase
         {
-            return Ok(_usersRepository.DeleteUserAsync(id));
-        }
-    }
+            private readonly IUserRepository _usersRepository;
 
-}
+            public UsersDeleteController(IUserRepository usersRepository)
+            {
+                _usersRepository = usersRepository;
+            } 
+
+            [HttpDelete("api/users/{id}")]
+            [Authorize(Roles = "Admin")]
+            public async Task<IActionResult> DeleteUser(int id)
+            {
+                try
+                {
+                    await _usersRepository.DeleteUserAsync(id);
+                    return Ok(new { message = "User marked as removed successfully." });
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return NotFound(new { message = ex.Message });
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, new { message = "An error occurred while removing the user.", details = ex.Message });
+                }
+            }
+        }
+
+
+    }

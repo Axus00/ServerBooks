@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace Books.Models
 {
-    public class User
+   public class User
     {
         public int Id { get; set; }
         public string? Names { get; set; }
@@ -15,7 +15,8 @@ namespace Books.Models
         public List<BookBorrow>? BookBorrows { get; set; }
 
         [JsonIgnore]
-        public List<UserRole>? UserRole { get; set; }
+        public List<UserRole>? UserRoles { get; set; }
     }
+
 }
 

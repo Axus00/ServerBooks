@@ -10,6 +10,8 @@ namespace Books.Models
         public string? Password { get; set; }
         public string? Phone { get; set; }
         public int UserId { get; set; }
-        public User? User { get; set; } // Relación con la clase User
+        public User? User { get; set; }
+        public ICollection<UserRole>? UserRoles { get; set; }
     }
+
 }

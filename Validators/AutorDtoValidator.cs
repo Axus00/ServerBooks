@@ -8,9 +8,9 @@ using FluentValidation;
 
 namespace Books.Validators
 {
-    public class AutorDtoValidator : AbstractValidator<AuthorDTO>
+    public class AutorDTOValidator : AbstractValidator<AuthorDTO>
     {
-        public AutorDtoValidator()
+        public AutorDTOValidator()
         {
             Include(new AutorNameRule());
         }

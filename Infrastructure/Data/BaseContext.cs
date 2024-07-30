@@ -14,66 +14,28 @@ namespace Books.Infrastructure.Data
 
         //Models
         public DbSet<User> Users { get; set; }
-        public DbSet<Models.Author> Authors { get; set; }
+        public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<BookBorrow> BookBorrows { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserData> UserDatas { get; set; }
-        public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-        base.OnModelCreating(modelBuilder);
+    {
+        modelBuilder.Entity<User>()
+            .HasMany(u => u.UserDatas)
+            .WithOne(ud => ud.User)
+            .HasForeignKey(ud => ud.UserId);
 
-        // Configuración de mapeo para el Enum StatusEnum en la tabla Coupons
-        modelBuilder.Entity<Models.Author>()
-            .Property(e => e.Status)
-            .HasConversion<string>();
-        
-        modelBuilder.Entity<Book>()
-            .Property(e => e.Status)
-            .HasConversion<string>();
+        modelBuilder.Entity<UserData>()
+            .HasOne(ud => ud.User)
+            .WithMany(u => u.UserDatas)
+            .HasForeignKey(ud => ud.UserId);
 
-        modelBuilder.Entity<BookBorrow>()
-            .Property(e => e.Status)
-            .HasConversion<string>();
-        }
-        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Configuración de las relaciones entre User y UserRole
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.User)
-                .WithMany(u => u.UserRole)
-                .HasForeignKey(ur => ur.UserId);
+        // Configuración adicional si es necesario
+    }
 
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.Role)
-                .WithMany()
-                .HasForeignKey(ur => ur.RoleId);
-
-            // Configuración de las relaciones entre User y UserData
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.UserData)
-                .WithOne(ud => ud.User)
-                .HasForeignKey<UserData>(ud => ud.UserId);
-
-            // Configuración de las relaciones entre BookBorrow, User y Book
-            modelBuilder.Entity<BookBorrow>()
-                .HasOne(bb => bb.Users)
-                .WithMany(u => u.BookBorrows)
-                .HasForeignKey(bb => bb.UserId);
-
-            modelBuilder.Entity<BookBorrow>()
-                .HasOne(bb => bb.Books)
-                .WithMany()
-                .HasForeignKey(bb => bb.BookId);
-
-            // Configuración de las relaciones entre Book y Autor
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Authors)
-                .WithMany(a => a.Books)
-                .HasForeignKey(b => b.AuthorId);
-        } */
 
     }
 }

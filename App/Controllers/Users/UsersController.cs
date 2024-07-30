@@ -16,14 +16,29 @@ namespace Books.App.Controllers
         }
 
         [HttpGet]
-        [Route("api/Users/list")]
+        [Route("api/users")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return Ok(await _usersRepository.GetAllUsersAsync()); // Corregido a _usersRepository
+            if(!ModelState.IsValid)
+            {
+                Utils.Exceptions.StatusError.CreateBadRequest();
+            }
+            try
+            {
+                var user = await _usersRepository.GetAllUsersAsync();
+                return Ok(Utils.Exceptions.StatusError.CreateOk()); // Corregido a _usersRepository
+            }
+            catch (Exception)
+            {
+                var problemDetails = Utils.Exceptions.StatusError.CreateServerError();
+                return StatusCode(StatusCodes.Status500InternalServerError, problemDetails);
+                throw;
+            }
+            
         }
 
         [HttpGet]
-        [Route("api/Users/{id}")]
+        [Route("api/users/{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
             var user = await _usersRepository.GetUserByIdAsync(id); // Corregido a _usersRepository
