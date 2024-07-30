@@ -26,7 +26,7 @@ builder.Services.AddDbContext<BaseContext>(options => options.UseMySql(
 
 // Configuration of the Interface that we will be used
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-
+builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailRepository, EmailRepository>();
 
@@ -44,7 +44,6 @@ builder.Services.AddTransient<IValidator<UserData>, UserDataValidator>();
 builder.Services.AddTransient<IValidator<Book>, BookValidator>();
 builder.Services.AddTransient<IValidator<Autor>, AutorValidator>();
 
-builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 
 builder.Services.AddAutoMapper(typeof(BooksProfile));
 

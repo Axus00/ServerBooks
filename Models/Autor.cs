@@ -16,7 +16,7 @@ namespace Books.Models
         public int Id {get; set;}
         public string? Name {get; set;}
 
-        // [JsonIgnore]
-        // public List<Book>? Books { get; }
+        [JsonIgnore]
+        public List<Book>? Books { get; }
     }
 }
