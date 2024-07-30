@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Books.Models;
+using Books.Models.DTOs;
 using FluentValidation;
 
 namespace Books.Validators
 {
-    public class BookValidator : AbstractValidator<Book>
+    public class BookDtoValidator : AbstractValidator<BookDTO>
     {
-        public BookValidator()
+        public BookDtoValidator()
         {
             Include(new BookNameRule());
         }
 
         //Start validations
-        public class BookNameRule : AbstractValidator<Book>
+        public class BookNameRule : AbstractValidator<BookDTO>
         {
             public BookNameRule()
             {
