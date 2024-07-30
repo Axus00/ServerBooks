@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Books.Models.Enums;
 
 namespace Books.Models
@@ -13,5 +14,8 @@ namespace Books.Models
         
         [ForeignKey("AuthorId")]
         public Author? Authors { get; set; }
+        [JsonIgnore]
+        public List<BookBorrow>? BookBorrows { get; set; }
+
     }
 }

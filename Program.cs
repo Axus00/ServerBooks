@@ -64,6 +64,8 @@ builder.Services.AddScoped<IBooksBorrowRepository, BooksBorrowRepository>();
 builder.Services.AddScoped<Bcrypt>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailRepository, EmailRepository>();
+builder.Services.AddTransient<IExcelExportRepository, ExcelExportRepository>();
+
 builder.Services.AddScoped<IJwtRepository, JwtRepository>(); //K
 
 
