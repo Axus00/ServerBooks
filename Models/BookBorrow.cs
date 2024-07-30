@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,9 +16,13 @@ namespace Books.Models
         public DateTime? EndDate {get; set;}
         public BorrowStatusEnum BorrowStatus {get; set;}
         public int UserId { get; set; }
-        public User? Users { get; }
         public int BookId { get; set; }
-        public Book? Books { get; }
+
+        [ForeignKey("UserId")]
+        public User? Users { get; set; }
+
+        [ForeignKey("BookId")]
+        public Book? Books { get; set; }
 
     }
 }

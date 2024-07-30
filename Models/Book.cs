@@ -14,8 +14,8 @@ namespace Books.Models
         
         [ForeignKey("AuthorId")]
         public Author? Authors { get; set; }
+
         [JsonIgnore]
         public List<BookBorrow>? BookBorrows { get; set; }
-
     }
 }

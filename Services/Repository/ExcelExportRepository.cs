@@ -25,7 +25,7 @@ namespace Books.Services.Repository
             ICollection<BookBorrow> registers = _context.BookBorrows
             .Where(option => option.UserId == id)
             .Include(u => u.Books)
-             .ThenInclude(b => b.Authors)
+                .ThenInclude(b => b.Authors)
             .ToList();
 
             DataTable table = new DataTable();

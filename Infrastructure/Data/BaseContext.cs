@@ -53,6 +53,24 @@ namespace Books.Infrastructure.Data
             modelBuilder.Entity<BookBorrow>()
                 .Property(e => e.BorrowStatus)
                 .HasConversion<string>();
+
+            //---------
+
+            // modelBuilder.Entity<BookBorrow>()
+            //     .HasOne(bb => bb.Users)
+            //     .WithMany(u => u.BookBorrows)
+            //     .HasForeignKey(bb => bb.UserId);
+
+            // modelBuilder.Entity<BookBorrow>()
+            //     .HasOne(bb => bb.Books)
+            //     .WithMany()
+            //     .HasForeignKey(bb => bb.BookId);
+
+            // // Configuración de las relaciones entre Book y Autor
+            // modelBuilder.Entity<Book>()
+            //     .HasOne(b => b.Authors)
+            //     .WithMany(a => a.Books)
+            //     .HasForeignKey(b => b.AuthorId);
         }
     } 
 }
