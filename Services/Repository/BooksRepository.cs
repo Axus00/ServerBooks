@@ -33,6 +33,11 @@ public class BooksRepository : IBooksRepository
 
   public async Task<BookDTO> CreateAsync(BookDTO bookDTO)
   {
+    if(bookDTO is null)
+    {
+      throw new ArgumentNullException(nameof(bookDTO), "The book cannot be null");
+    }
+    
     Book book = _mapper.Map<Book>(bookDTO);
     _context.Books.Add(book);
     await _context.SaveChangesAsync();

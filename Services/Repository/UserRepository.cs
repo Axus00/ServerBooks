@@ -14,6 +14,7 @@ namespace Books.Services.Repository
     {
         private readonly BaseContext _context;
         private readonly IMapper _mapper;
+        string Error { get; set; } = string.Empty;
 
         public UserRepository(BaseContext context, IMapper mapper)
         {
@@ -23,22 +24,40 @@ namespace Books.Services.Repository
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            return await _context.Users
+            var user = await _context.Users
                 .Include(c => c.UserRole)
                 /* .Include(c => c.UserData) */
                 .ToListAsync();
+
+            if(user is null || !user.Any())
+            {
+                Error += "Users no found";
+            }
+
+            return user;
         }
 
         public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _context.Users
+            var userById = await _context.Users
                 .Include(m => m.UserRole)
                 /* .Include(c => c.UserData) */
                 .FirstOrDefaultAsync(c => c.Id == id);
+            if(userById == null)
+            {
+                Error += "user id not found";
+            }
+            return userById;
         }
 
         public async Task<User> CreateUserAsync(UserDto userDto)
         {
+            if(userDto is null)
+            {
+                throw new ArgumentNullException(nameof(userDto), "The user cannot be null");
+            }
+
+
             var user = _mapper.Map<User>(userDto);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -58,7 +77,10 @@ namespace Books.Services.Repository
         public async Task<User> DeleteUserAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
-            if (user == null) return null;
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user), "user not found");
+            } 
 
             user.Status = "Removed"; // Asegúrate de que la propiedad Status exista en User
             await _context.SaveChangesAsync();
