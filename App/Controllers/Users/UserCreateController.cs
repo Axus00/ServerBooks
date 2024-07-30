@@ -65,7 +65,7 @@ namespace Books.App.Controllers.Users
                 Email = userDTO.Email,
                 Password = hashedPassword,
                 Phone = userDTO.Phone,
-                UserId = newUser.Id 
+                UserId = newUser.Id,
             };
 
             var newUserRole = new UserRole

@@ -34,6 +34,7 @@ namespace Books.Infrastructure.Data
                 .HasMany(u => u.UserRole)
                 .WithOne(ur => ur.User)
                 .HasForeignKey(ur => ur.UserId);
+                    
 
             // Configuración de mapeo para el Enum StatusEnum en la tabla Coupons
             modelBuilder.Entity<Models.Author>()
