@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Books.Utils.Profiles;
 using Books.Services.Interface;
 using Books.Services.Repository;
-using Books.Models.Dtos;
+using Books.Models.DTOs;
 using Books.Models.DTOs;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -64,9 +64,9 @@ builder.Services.AddAutoMapper(typeof(UsersProfile));
 builder.Services.AddControllers();
 
 
-builder.Services.AddTransient<IValidator<UserDto>, UserDtoValidator>();
-builder.Services.AddTransient<IValidator<BookDTO>, BookDtoValidator>();
-builder.Services.AddTransient<IValidator<AuthorDTO>, AutorDtoValidator>();
+builder.Services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
+builder.Services.AddTransient<IValidator<BookDTO>, BookDTOValidator>();
+builder.Services.AddTransient<IValidator<AuthorDTO>, AutorDTOValidator>();
 
 
 builder.Services.AddAutoMapper(typeof(BooksProfile));
@@ -83,8 +83,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication(); //K
 app.UseAuthorization();
-app.UseAuthentication();
 app.MapControllers();    
 
 app.Run();

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Books.Models.Dtos
+namespace Books.Models.DTOs
 {
-    public class AdminUserDto
+    public class AdminUserDTO
     {
         public string ? Name { get; set;}
         public string ? Email { get; set;}

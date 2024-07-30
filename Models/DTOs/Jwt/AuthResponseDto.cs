@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Books.Models.DTOs.Jwt
 {
-    public class AuthResponseDto
+    public class AuthResponseDTO
     {
         public string? Email { get; set; }
         public string? Password { get; set; }

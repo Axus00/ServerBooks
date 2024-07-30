@@ -16,14 +16,14 @@ namespace Books.App.Controllers
         }
 
         [HttpGet]
-        [Route("api/Users/list")]
+        [Route("api/users")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return Ok(await _usersRepository.GetAllUsersAsync()); // Corregido a _usersRepository
         }
 
         [HttpGet]
-        [Route("api/Users/{id}")]
+        [Route("api/users/{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
             var user = await _usersRepository.GetUserByIdAsync(id); // Corregido a _usersRepository

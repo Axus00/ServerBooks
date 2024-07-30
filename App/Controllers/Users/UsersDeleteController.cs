@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Books.Services.Interface;
 using Books.Services.Repository;
-using Books.Models.Dtos;
+using Books.Models.DTOs;
 
 namespace Books.App.Controllers
 {
@@ -17,11 +17,22 @@ namespace Books.App.Controllers
             _usersRepository = usersRepository;
         } 
 
-        [HttpDelete]
+       [HttpDelete]
         [Route("api/users/{id}/delete")]
-        public IActionResult DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            return Ok(_usersRepository.DeleteUserAsync(id));
+            var user = await _usersRepository.DeleteUserAsync(id);
+            if (user == null)
+            {
+                return NotFound(); // Devuelve NotFound si el usuario no existe
+            }
+
+            if (user.Status == "Removed")
+            {
+                return Ok(new { user, message = "User was already in 'Removed' status." });
+            }
+
+            return Ok(new { user, message = "User status updated to 'Removed'." });
         }
     }
 

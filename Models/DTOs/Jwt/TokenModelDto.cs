@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Books.Models.DTOs.Jwt
 {
-    public class TokenModelDto
+    public class TokenModelDTO
     {
         public string? Token { get; set; }
     }

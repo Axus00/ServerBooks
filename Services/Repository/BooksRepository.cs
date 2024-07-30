@@ -27,8 +27,12 @@ public class BooksRepository : IBooksRepository
 
   public async Task<BookDTO> GetByIdAsync(int id)
   {
-    Book book = await _context.Books.FindAsync(id);
-    return _mapper.Map<BookDTO>(book);
+      var book = await _context.Books
+          .AsNoTracking()
+          .Include(b => b.Authors) // K: Se incluyen los autores
+          .FirstOrDefaultAsync(b => b.Id == id);
+          
+      return _mapper.Map<BookDTO>(book);
   }
 
   public async Task<BookDTO> CreateAsync(BookDTO bookDTO)

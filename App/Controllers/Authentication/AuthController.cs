@@ -23,9 +23,9 @@ namespace Books.App.Controllers.Authentication
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] AuthResponseDto authResponseDto)
+        public async Task<IActionResult> Login([FromBody] AuthResponseDTO authResponseDTO)
         {
-            var TokenAuth = _context.UserDatas.FirstOrDefault(auth => auth.Email == authResponseDto.Email && auth.Password == authResponseDto.Password);
+            var TokenAuth = _context.UserDatas.FirstOrDefault(auth => auth.Email == authResponseDTO.Email && auth.Password == authResponseDTO.Password);
 
             if(TokenAuth is null)
             {
@@ -45,7 +45,7 @@ namespace Books.App.Controllers.Authentication
                 );
                 var WriteToken = new JwtSecurityTokenHandler().WriteToken(TokenOptions);
 
-                return Ok(new TokenModelDto{ Token = WriteToken });
+                return Ok(new TokenModelDTO{ Token = WriteToken });
             }
 
             return Unauthorized();
