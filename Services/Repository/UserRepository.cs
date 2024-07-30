@@ -40,7 +40,7 @@ namespace Books.Services.Repository
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-       public async Task<User> CreateUserAsync(UserDTO userDTO, string password)
+        public async Task<User> CreateUserAsync(UserDTO userDTO, string password)
         {
             // Verificar si un usuario con el email dado ya existe
             var existingUserData = await _context.UserDatas
@@ -139,7 +139,7 @@ namespace Books.Services.Repository
             return user;
         }
 
-       public async Task DeleteUserAsync(int id)
+        public async Task DeleteUserAsync(int id)
         {
             var user = await _context.Users
                 .Include(u => u.UserDatas)
@@ -196,7 +196,7 @@ namespace Books.Services.Repository
                 .FirstOrDefaultAsync(u => u.Email == email);
 
             User user = await _context.Users
-                .Include(u => u.UserRole)
+                .Include(u => u.UserRoles)
                 .ThenInclude(r => r.Role)
                 .FirstOrDefaultAsync(u => u.Id == userData.UserId);
 
@@ -205,7 +205,8 @@ namespace Books.Services.Repository
             {
                 return null;
             } */
-            Role userRole = user.UserRole.FirstOrDefault().Role;
+
+            Role userRole = user.UserRoles.FirstOrDefault().Role;
 
             // Generar el token JWT
             var token = _jwtRepository.GenerateToken(userData.Email, user.Names, userRole.Type);

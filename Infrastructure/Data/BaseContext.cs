@@ -21,7 +21,7 @@ namespace Books.Infrastructure.Data
         public DbSet<UserData> UserDatas { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
@@ -34,6 +34,11 @@ namespace Books.Infrastructure.Data
                 .HasMany(u => u.UserRoles)
                 .WithOne(ur => ur.User)
                 .HasForeignKey(ur => ur.UserId);
+
+            // modelBuilder.Entity<UserRole>()
+            //     .HasOne(ur => ur.Role)
+            //     .WithMany()
+            //     .HasForeignKey(ur => ur.RoleId);
 
             // Configuración de mapeo para el Enum StatusEnum en la tabla Coupons
             modelBuilder.Entity<Models.Author>()
@@ -48,23 +53,5 @@ namespace Books.Infrastructure.Data
                 .Property(e => e.BorrowStatus)
                 .HasConversion<string>();
         }
-        
-        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            // Configuración de las relaciones entre User y UserRole
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.User)
-                .WithMany(u => u.UserRole)
-                .HasForeignKey(ur => ur.UserId);
-
-            modelBuilder.Entity<UserRole>()
-                .HasOne(ur => ur.Role)
-                .WithMany()
-                .HasForeignKey(ur => ur.RoleId);
-
-            // Otras configuraciones si es necesario
-        }
-    }
-
-    
+    } 
 }

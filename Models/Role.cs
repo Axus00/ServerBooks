@@ -11,6 +11,6 @@ namespace Books.Models
 
         public string Type { get; set; }
 
-        public UserRole? UserRoles { get; set; }
+        public List<UserRole> UserRole { get; set; }
     }
 }

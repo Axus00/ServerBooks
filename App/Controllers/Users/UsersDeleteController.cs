@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Books.Services.Interface;
 using Books.Services.Repository;
 using Books.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Books.App.Controllers
 {

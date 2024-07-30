@@ -28,7 +28,7 @@ namespace Books.App.Controllers.Users
 
         [HttpPost]
         [Route("api/users/create")]
-        public async Task<IActionResult> Register(UserDTO userDTO)
+        public async Task<IActionResult> Register([FromBody] UserDTO userDTO)
         {
             // Validar el DTO
             var result = _userDtoValidator.Validate(userDTO);
