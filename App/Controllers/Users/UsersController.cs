@@ -23,10 +23,10 @@ namespace Books.App.Controllers
             {
                 Utils.Exceptions.StatusError.CreateBadRequest();
             }
+
             try
             {
-                var user = await _usersRepository.GetAllUsersAsync();
-                return Ok(Utils.Exceptions.StatusError.CreateOk()); // Corregido a _usersRepository
+                return Ok(await _usersRepository.GetAllUsersAsync()); // Corregido a _usersRepository
             }
             catch (Exception)
             {
