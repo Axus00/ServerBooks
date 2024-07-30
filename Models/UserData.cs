@@ -9,9 +9,7 @@ namespace Books.Models
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public int UserId { get; set; }
+         [JsonIgnore]
         public User? User { get; set; } // Relación con la clase User
-
-        [JsonIgnore]
-        public List<User>? Users { get; set; }
     }
 }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using Books.Infrastructure.Data;
 using Books.Models;
 using Books.Models.Mappers;
@@ -13,7 +15,14 @@ using Books.Services.Repository;
 using MailKit;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
+
+// Configuración de servicios
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+    });
+    //K
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

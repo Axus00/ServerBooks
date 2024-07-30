@@ -7,6 +7,7 @@ using Books.Models.Dtos;
 using Books.Services.Interface;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Books.Services.Repository
 {
@@ -24,7 +25,7 @@ namespace Books.Services.Repository
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _context.Users
-                .Include(c => c.UserRole)
+                .Include(c => c.UserRoles)
                 .Include(c => c.UserData)
                 .ToListAsync();
         }
@@ -32,7 +33,7 @@ namespace Books.Services.Repository
         public async Task<User> GetUserByIdAsync(int id)
         {
             return await _context.Users
-                .Include(m => m.UserRole)
+                .Include(m => m.UserRoles)
                 .Include(c => c.UserData)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
@@ -60,9 +61,10 @@ namespace Books.Services.Repository
             var user = await _context.Users.FindAsync(id);
             if (user == null) return null;
 
-            user.Status = "Removed"; // Asegúrate de que la propiedad Status exista en User
+            user.Status = "Removed";
             await _context.SaveChangesAsync();
             return user;
         }
+
     }
 }

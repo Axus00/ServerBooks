@@ -9,7 +9,9 @@ namespace Books.Models
         public int UserId { get; set; }
         public int RoleId { get; set; }
 
+        [JsonIgnore]
         public User? User { get; set; } // Relación con la clase User
+        [JsonIgnore]
         public Role? Role { get; set; } // Relación con la clase Role
 
         // [JsonIgnore]

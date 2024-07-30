@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Books.Models;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Books.Models
 {
@@ -18,8 +20,10 @@ namespace Books.Models
         public DateTime EndDate   {get; set;}
 
         public int UserId { get; }
+        [JsonIgnore]
         public User? Users { get; }
         public int BookId { get; }
+        [JsonIgnore]
         public Book? Books { get; }
 
     }

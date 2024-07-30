@@ -7,14 +7,16 @@ namespace Books.Models
 {
     public class Role
     {
-        public int Id {get; set; }
-        public  enum Type
+        public int Id { get; set; }
+        
+        public enum Type
         {
             Customer,
             Admin
-
         }
-
-        public UserRole? UserRoles { get; set; }
+        
+        public Type RoleType { get; set; }
+        
+        public ICollection<UserRole>? UserRoles { get; set; } // Relación uno a muchos con UserRole
     }
 }

@@ -19,10 +19,16 @@ namespace Books.App.Controllers
 
         [HttpDelete]
         [Route("api/users/{id}/delete")]
-        public IActionResult DeleteUser(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            return Ok(_usersRepository.DeleteUserAsync(id));
+            var result = await _usersRepository.DeleteUserAsync(id);
+            if (result == null)
+            {
+                return NotFound(); // Devuelve NotFound si el usuario no existe
+            }
+            return Ok(result); // Devuelve el usuario actualizado si la eliminación fue exitosa
         }
+
     }
 
 }
