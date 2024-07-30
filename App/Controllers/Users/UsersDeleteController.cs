@@ -19,7 +19,7 @@ namespace Books.App.Controllers
             _usersRepository = usersRepository;
         } 
 
-            [HttpDelete("api/users/{id}/delete")]
+            [HttpDelete("api/users/{id}")]
             [Authorize(Roles = "Admin")]
             public async Task<IActionResult> DeleteUser(int id)
             {

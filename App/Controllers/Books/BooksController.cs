@@ -20,9 +20,9 @@ namespace Books.App.Controllers
     }
 
     [HttpGet]
+    [Authorize] 
     /*
       ## BUG: 91
-      [Authorize] 
     */
     public async Task<IEnumerable<BookDTO>> GetAll()
     {
