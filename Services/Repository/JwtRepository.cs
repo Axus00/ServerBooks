@@ -33,9 +33,9 @@ namespace Books.Services.Repository
                 audience: @Environment.GetEnvironmentVariable("JwtToken"),
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: creds);
+                signingCredentials: signinCredentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
     }
 }
