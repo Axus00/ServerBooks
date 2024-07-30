@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Books.Models;
 using DocumentFormat.OpenXml.Bibliography;
@@ -18,14 +14,30 @@ namespace Books.Infrastructure.Data
 
         //Models
         public DbSet<User> Users { get; set; }
-        public DbSet<Autor> Authors { get; set; }
+        public DbSet<Models.Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<BookBorrow> BookBorrows { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserData> UserDatas { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            // Configuración de mapeo para el Enum StatusEnum en la tabla Coupons
+            modelBuilder.Entity<Models.Author>()
+                .Property(e => e.Status)
+                .HasConversion<string>();
+        
+            modelBuilder.Entity<Book>()
+                .Property(e => e.Status)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<BookBorrow>()
+                .Property(e => e.BorrowStatus)
+                .HasConversion<string>();
+        }
         /* protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configuración de las relaciones entre User y UserRole

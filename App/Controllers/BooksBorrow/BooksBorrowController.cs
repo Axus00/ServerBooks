@@ -5,32 +5,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Books.App.Controllers.Books
 {
-  [Route("api/books")]
+  [Route("api/booksborrow")]
   [ApiController]
   // Remember that in works in onion (this is level 1, repository is level 2), so
   // others classes, don't know about this one
-  public class BooksController: ControllerBase
+  public class BooksBorrowController: ControllerBase
   {
-    private readonly IBooksRepository _booksRepository;
-    public BooksController(IBooksRepository booksRepository)
+    private readonly IBooksBorrowRepository _booksBorrowRepository;
+    public BooksBorrowController(IBooksBorrowRepository booksBorrowRepository)
     {
-      _booksRepository = booksRepository;
+      _booksBorrowRepository = booksBorrowRepository;
     }
 
     [HttpGet]
-    /*
-      ## BUG: 91
-      [Authorize] 
-    */
     public async Task<IEnumerable<BookDTO>> GetAll()
     {
-      return await _booksRepository.GetAllAsync();
+      // return await _booksBorrowRepository.GetAllAsync();
+      throw new NotImplementedException();
     }
 
     [HttpGet("{id}")]
     public async Task<BookDTO> GetById(int Id)
     {
-      return await _booksRepository.GetByIdAsync(Id);
+      throw new NotImplementedException();
+      // return await _booksBorrowRepository.GetByIdAsync(Id);
     }
 
   }
