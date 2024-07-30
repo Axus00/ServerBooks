@@ -1,54 +1,94 @@
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using Books.Infrastructure.Data;
-using Books.Models.DTOs.Jwt;
+using Books.Models;
+using Books.Models.DTOs;
+using Books.Services.Interface;
+using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Configuration;
 
 namespace Books.App.Controllers.Authentication
 {
-    [ApiController]
-    [Route("api/auth/[action]")]
+    // [ApiController]
+    // [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly BaseContext _context;
-        public AuthController(BaseContext context)
+        private readonly IUserRepository _userRepository;
+        private readonly IValidator<UserDTO> _userDtoValidator;
+        private readonly IValidator<AdminUserDTO> _adminUserDtoValidator;
+        private readonly IConfiguration _configuration;
+        private readonly IJwtRepository _jwtRepository;
+
+        public AuthController(IUserRepository userRepository, IValidator<UserDTO> userDtoValidator, IValidator<AdminUserDTO> adminUserDtoValidator, IConfiguration configuration, IJwtRepository jwtRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
+            _userDtoValidator = userDtoValidator;
+            _adminUserDtoValidator = adminUserDtoValidator;
+            _configuration = configuration;
+            _jwtRepository = jwtRepository;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Login([FromBody] AuthResponseDto authResponseDto)
+        [HttpPost("api/users/register")]
+        public async Task<IActionResult> Register([FromBody] UserDTO userDTO)
         {
-            var TokenAuth = _context.UserDatas.FirstOrDefault(auth => auth.Email == authResponseDto.Email && auth.Password == authResponseDto.Password);
-
-            if(TokenAuth is null)
+            // Validar el DTO
+            var result = _userDtoValidator.Validate(userDTO);
+            if (!result.IsValid)
             {
-                return NotFound(Utils.Exceptions.StatusError.CreateNotFound());
-            }
-            else
-            {
-                var SecretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(@Environment.GetEnvironmentVariable("SecretKey")));
-
-                var SigninCredentials = new SigningCredentials(SecretKey, SecurityAlgorithms.HmacSha256);
-                var TokenOptions = new JwtSecurityToken(
-                    issuer: @Environment.GetEnvironmentVariable("JwtToken"),
-                    audience: @Environment.GetEnvironmentVariable("JwtToken"),
-                    claims: new List<Claim>(),
-                    expires: DateTime.Now.AddHours(1),
-                    signingCredentials: SigninCredentials
-                );
-                var WriteToken = new JwtSecurityTokenHandler().WriteToken(TokenOptions);
-
-                return Ok(new TokenModelDto{ Token = WriteToken });
+                return BadRequest(result.Errors);
             }
 
-            return Unauthorized();
+            // Crear el usuario
+            try
+            {
+                var newUser = await _userRepository.CreateUserAsync(userDTO, userDTO.Password);
+                return Ok(new { message = "User registered successfully" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("api/admin/register")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] AdminUserDTO adminUserDTO)
+        {
+            // Validar el DTO
+            var result = _adminUserDtoValidator.Validate(adminUserDTO);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            // Crear el usuario administrador
+            try
+            {
+                var newAdminUser = await _userRepository.CreateAdminUserAsync(adminUserDTO, adminUserDTO.Password);
+                return Ok(new { message = "Admin user registered successfully" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost("api/auth/login")]
+        public async Task<IActionResult> Login([FromBody] AuthResponseDTO authResponseDTO)
+        {
+            var token = await _userRepository.LoginAsync(authResponseDTO.Email, authResponseDTO.Password);
+
+            /* if (user == null || !BCrypt.Net.BCrypt.Verify(authResponseDTO.Password, user.Password))
+            {
+                return Unauthorized(new { message = "Invalid credentials" });
+            } */
+
+            // Notificar al usuario sobre el inicio de sesión
+            await _userRepository.NotifyLoginAsync(authResponseDTO.Email);
+
+            return Ok(new TokenModelDTO { Token = token });
         }
     }
 }

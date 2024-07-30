@@ -30,8 +30,8 @@ public class BooksRepository : IBooksRepository
       .Include(b => b.Authors)
       .ToListAsync();
 
-    return _mapper.Map<IEnumerable<BookDTO>>(data);
-  }
+      return _mapper.Map<IEnumerable<BookDTO>>(data);
+    }
 
   public async Task<BookDTO> GetByIdAsync(int id)
   {
@@ -63,11 +63,11 @@ public class BooksRepository : IBooksRepository
     return bookDTO;
   }
 
-  public async Task<BookDTO> UpdateAsync(int id, BookDTO book)
-  {
-    Book existingBook = await _context.Books.FindAsync(id);
-    if (existingBook == null) 
-      return null;
+    public async Task<BookDTO> UpdateAsync(int id, BookDTO book)
+    {
+      Book existingBook = await _context.Books.FindAsync(id);
+      if (existingBook == null) 
+        return null;
 
     Books.Models.Author existAuthor = await GetAuthor(book.Author);
     if (existAuthor == null) 
