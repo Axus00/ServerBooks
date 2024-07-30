@@ -1,13 +1,9 @@
-// Services/Repository/JwtRepository.cs
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Books.Services.Interface;
-using Books.Models.DTOs;
 
 namespace Books.Services.Repository
 {
@@ -36,11 +32,10 @@ namespace Books.Services.Repository
                 issuer: @Environment.GetEnvironmentVariable("JwtToken"),
                 audience: @Environment.GetEnvironmentVariable("JwtToken"),
                 claims: claims,
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: signinCredentials
-            );
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: creds);
 
-            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
