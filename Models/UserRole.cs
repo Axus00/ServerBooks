@@ -14,6 +14,6 @@ namespace Books.Models
         public List<User>? Users { get; set; }
 
         [JsonIgnore]
-        public List<Role>? Roles { get; set; }
+        List<Role>? Roles { get; set; }
     }
 }
