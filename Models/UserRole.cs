@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Books.Models
 {
@@ -11,11 +8,12 @@ namespace Books.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public int RoleId { get; set; }
+        public User? User { get; set; } // Relación con la clase User
 
         [JsonIgnore]
-        List<User>? Users { get; set; }
+        public List<User>? Users { get; set; }
 
         [JsonIgnore]
-        List<Role>? Roles {get; set; }
+        public List<Role>? Roles { get; set; }
     }
 }
