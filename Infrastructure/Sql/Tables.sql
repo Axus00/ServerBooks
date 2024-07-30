@@ -1,7 +1,7 @@
--- Active: 1722290006205@@127.0.0.1@3306@bokgtp7j8jg7rk6dcziu
+-- Active: 1722302981010@@bokgtp7j8jg7rk6dcziu-mysql.services.clever-cloud.com@3306@bokgtp7j8jg7rk6dcziu
 CREATE TABLE Users (
     Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    Name VARCHAR(255) NOT NULL,
+    Names VARCHAR(255) NOT NULL,
     Status ENUM("Active", "Removed")
 );
 
@@ -51,3 +51,5 @@ CREATE TABLE BooksBorrow (
     FOREIGN KEY (UserId) REFERENCES Users(Id),
     FOREIGN KEY (BookId) REFERENCES Books(Id)
 );
+
+DESCRIBE Users;
