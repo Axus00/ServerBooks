@@ -91,7 +91,7 @@ public class BooksRepository : IBooksRepository
     book.Status = StatusEnum.Removed;
 
     _context.Books.Update(book);
-    return await _context.SaveChangesAsync();
+    return id;
   }
 
   private async Task<Books.Models.Author> GetAuthor(string authorName)

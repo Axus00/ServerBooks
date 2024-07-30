@@ -79,6 +79,8 @@ namespace Books.Services.Repository
       {
         BookId = bookId,
         UserId = userId,
+        StartDate = DateTime.MinValue,
+        EndDate = DateTime.MinValue,
         BorrowStatus = BorrowStatusEnum.Pending
       };
 
