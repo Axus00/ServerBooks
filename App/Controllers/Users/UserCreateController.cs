@@ -12,8 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Books.App.Controllers.Users
 {
-    [ApiController]
-    [Route("api/users/[action]")]
+
     public class UserCreateController : ControllerBase
     {
         private readonly BaseContext _context;
@@ -26,7 +25,9 @@ namespace Books.App.Controllers.Users
             _userRepository = userRepository;
             _userDtoValidator = userDtoValidator;
         }
+
         [HttpPost]
+        [Route("api/users/create")]
         public async Task<IActionResult> Register(UserDTO userDTO)
         {
             // Validar el DTO
@@ -36,51 +37,23 @@ namespace Books.App.Controllers.Users
                 return BadRequest(result.Errors);
             }
 
-            // Verificar si el usuario ya existe
-            var existingUser = await _context.UserDatas
-                .FirstOrDefaultAsync(u => u.Email == userDTO.Email);
-            if (existingUser != null)
+            try
             {
-                return Conflict(new { message = "The user with this email already exists" });
+                // Generar una contraseña temporal para el registro (o usa la contraseña que se envía)
+                var password = "UserGeneratedPassword"; // Cambia esto según tu lógica para generar o recibir la contraseña
+
+                // Crear el usuario utilizando el repositorio
+                var newUser = await _userRepository.CreateUserAsync(userDTO, password);
+
+                // Devolver respuesta exitosa
+                return Ok(new { message = "User registered successfully" });
             }
-
-            // Cifrar la contraseña
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
-            
-
-            // Crear el usuario
-            var newUser = new User
+            catch (InvalidOperationException ex)
             {
-                Names = userDTO.Names,
-                Status = "Active"
-            };
-
-            // Agregar y guardar el usuario
-            _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
-
-            // Crear el UserData
-            var newUserData = new UserData
-            {
-                Email = userDTO.Email,
-                Password = hashedPassword,
-                Phone = userDTO.Phone,
-                UserId = newUser.Id 
-            };
-
-            var newUserRole = new UserRole
-            {
-                UserId = newUser.Id,
-                RoleId = 1 // Asignar rol predeterminado de Customer
-            };
-
-            // Agregar y guardar UserData y UserRole
-            _context.UserDatas.Add(newUserData);
-            _context.UserRoles.Add(newUserRole);
-            await _context.SaveChangesAsync();
-
-            // Devolver respuesta exitosa
-            return Ok(new { message = "User registered successfully" });
+                // Manejar caso en el que el usuario ya existe
+                return Conflict(new { message = ex.Message });
+            }
         }
+
     }
 }

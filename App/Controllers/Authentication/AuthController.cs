@@ -30,6 +30,28 @@ namespace Books.App.Controllers.Authentication
             _jwtRepository = jwtRepository;
         }
 
+        // [HttpPost("api/users/register")]
+        // public async Task<IActionResult> Register([FromBody] UserDTO userDTO)
+        // {
+        //     // Validar el DTO
+        //     var result = _userDtoValidator.Validate(userDTO);
+        //     if (!result.IsValid)
+        //     {
+        //         return BadRequest(result.Errors);
+        //     }
+
+        //     // Crear el usuario
+        //     try
+        //     {
+        //         var newUser = await _userRepository.CreateUserAsync(userDTO, userDTO.Password);
+        //         return Ok(new { message = "User registered successfully" });
+        //     }
+        //     catch (InvalidOperationException ex)
+        //     {
+        //         return Conflict(new { message = ex.Message });
+        //     }
+        // }
+
         [HttpPost("api/admin/register")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RegisterAdmin([FromBody] AdminUserDTO adminUserDTO)

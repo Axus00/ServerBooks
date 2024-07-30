@@ -7,11 +7,12 @@ namespace Books.Models
     {
         public int Id { get; set; }
         public string? Email { get; set; }
-        public string? Password { get; set; }
+        // public string? Password { get; set; }
+        public string? Password { get; set; } // K: Cambiado a Password
         public string? Phone { get; set; }
         public int UserId { get; set; }
-        public User? User { get; set; }
-        public ICollection<UserRole>? UserRoles { get; set; }
+        public User? User { get; set; } // Relación con la clase User
+        public ICollection<UserRole>? UserRoles { get; set; } // K
     }
 
 }

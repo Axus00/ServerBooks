@@ -40,7 +40,7 @@ namespace Books.Services.Repository
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<User> CreateUserAsync(UserDTO userDTO, string password)
+       public async Task<User> CreateUserAsync(UserDTO userDTO, string password)
         {
             // Verificar si un usuario con el email dado ya existe
             var existingUserData = await _context.UserDatas
@@ -70,14 +70,23 @@ namespace Books.Services.Repository
 
             // Agregar user al contexto
             _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(); // Guarda para obtener el Id generado
+
+            // Crear UserRole con el Id del nuevo usuario
+            var userRole = new UserRole
+            {
+                UserId = user.Id,
+                RoleId = 1 // Asignar rol predeterminado de Customer
+            };
+
+            _context.UserRoles.Add(userRole);
+            await _context.SaveChangesAsync(); // Guardar todos los cambios
 
             // Enviar email de confirmación
             await SendRegistrationEmailAsync(userDTO.Email, password);
 
             return user;
         }
-
         public async Task<User> CreateAdminUserAsync(AdminUserDTO adminUserDTO, string password)
         {
             // Verificar si un usuario con el email dado ya existe
