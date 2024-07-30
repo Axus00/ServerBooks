@@ -25,7 +25,7 @@ namespace Books.Services.Repository
         {
             return await _context.Users
                 .Include(c => c.UserRole)
-                .Include(c => c.UserData)
+                /* .Include(c => c.UserData) */
                 .ToListAsync();
         }
 
@@ -33,7 +33,7 @@ namespace Books.Services.Repository
         {
             return await _context.Users
                 .Include(m => m.UserRole)
-                .Include(c => c.UserData)
+                /* .Include(c => c.UserData) */
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 

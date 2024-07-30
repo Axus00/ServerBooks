@@ -1,4 +1,5 @@
--- Active: 1722302981010@@bokgtp7j8jg7rk6dcziu-mysql.services.clever-cloud.com@3306@bokgtp7j8jg7rk6dcziu
+-- Active: 1722304771666@@bokgtp7j8jg7rk6dcziu-mysql.services.clever-cloud.com@3306@bokgtp7j8jg7rk6dcziu
+
 CREATE TABLE Users (
     Id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     Names VARCHAR(255) NOT NULL,
@@ -53,3 +54,5 @@ CREATE TABLE BooksBorrow (
 );
 
 DESCRIBE Users;
+
+select * from UserDatas;

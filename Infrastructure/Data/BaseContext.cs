@@ -26,7 +26,7 @@ namespace Books.Infrastructure.Data
         public DbSet<UserRole> UserRole { get; set; }
 
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        /* protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configuración de las relaciones entre User y UserRole
             modelBuilder.Entity<UserRole>()
@@ -61,7 +61,7 @@ namespace Books.Infrastructure.Data
                 .HasOne(b => b.Authors)
                 .WithMany(a => a.Books)
                 .HasForeignKey(b => b.AuthorId);
-        }
+        } */
 
     }
 }
