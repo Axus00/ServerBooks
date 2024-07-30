@@ -17,4 +17,5 @@ namespace Books.Models
         public User? User { get; set; } // Relación con la clase User
         // public ICollection<UserRole>? UserRoles { get; set; } // K
     }
+
 }

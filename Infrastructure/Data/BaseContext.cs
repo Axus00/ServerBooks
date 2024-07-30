@@ -21,7 +21,7 @@ namespace Books.Infrastructure.Data
         public DbSet<UserData> UserDatas { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
@@ -31,7 +31,7 @@ namespace Books.Infrastructure.Data
                 .HasForeignKey(ud => ud.UserId);
 
             modelBuilder.Entity<User>()
-                .HasMany(u => u.UserRole)
+                .HasMany(u => u.UserRoles)
                 .WithOne(ur => ur.User)
                 .HasForeignKey(ur => ur.UserId);
 
@@ -62,29 +62,9 @@ namespace Books.Infrastructure.Data
                 .WithMany()
                 .HasForeignKey(ur => ur.RoleId);
 
-            // Configuración de las relaciones entre User y UserData
-            modelBuilder.Entity<User>()
-                .HasOne(u => u.UserData)
-                .WithOne(ud => ud.User)
-                .HasForeignKey<UserData>(ud => ud.UserId);
-
-            // Configuración de las relaciones entre BookBorrow, User y Book
-            modelBuilder.Entity<BookBorrow>()
-                .HasOne(bb => bb.Users)
-                .WithMany(u => u.BookBorrows)
-                .HasForeignKey(bb => bb.UserId);
-
-            modelBuilder.Entity<BookBorrow>()
-                .HasOne(bb => bb.Books)
-                .WithMany()
-                .HasForeignKey(bb => bb.BookId);
-
-            // Configuración de las relaciones entre Book y Autor
-            modelBuilder.Entity<Book>()
-                .HasOne(b => b.Authors)
-                .WithMany(a => a.Books)
-                .HasForeignKey(b => b.AuthorId);
-        } */
-
+            // Otras configuraciones si es necesario
+        }
     }
+
+    
 }

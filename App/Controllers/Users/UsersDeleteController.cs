@@ -6,18 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Books.Services.Interface;
 using Books.Services.Repository;
 using Books.Models.DTOs;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Books.App.Controllers
 {
     public class UsersDeleteController : ControllerBase
     {
         private readonly IUserRepository _usersRepository;
-        private object _userRepository;
 
-        public UsersDeleteController(IUserRepository usersRepository){
-            _usersRepository = usersRepository;
-        } 
+            public UsersDeleteController(IUserRepository usersRepository)
+            {
+                _usersRepository = usersRepository;
+            } 
 
             [HttpDelete("api/users/{id}")]
             [Authorize(Roles = "Admin")]
@@ -42,4 +41,4 @@ namespace Books.App.Controllers
 
     }
 
-}
+    }
