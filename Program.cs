@@ -50,9 +50,12 @@ builder.Services.AddAuthentication(opt => {
     });
 
 // Configuration of the Interface that we will be used
+//----- Repository injection
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+builder.Services.AddScoped<IBooksBorrowRepository, BooksBorrowRepository>();
+
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailRepository, EmailRepository>();
 

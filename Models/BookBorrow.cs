@@ -10,12 +10,12 @@ namespace Books.Models
     public class BookBorrow
     {
         public int Id {get; set;}
-        public DateTime StartDate  {get; set;}
-        public DateTime EndDate   {get; set;}
-        public BorrowStatusEnum Status {get; set;}
-        public int UserId { get; }
+        public DateTime? StartDate  {get; set;}
+        public DateTime? EndDate   {get; set;}
+        public BorrowStatusEnum BorrowStatus {get; set;}
+        public int UserId { get; set; }
         public User? Users { get; }
-        public int BookId { get; }
+        public int BookId { get; set; }
         public Book? Books { get; }
 
     }

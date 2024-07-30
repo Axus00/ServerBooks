@@ -23,20 +23,20 @@ namespace Books.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-        base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 
-        // Configuración de mapeo para el Enum StatusEnum en la tabla Coupons
-        modelBuilder.Entity<Models.Author>()
-            .Property(e => e.Status)
-            .HasConversion<string>();
+            // Configuración de mapeo para el Enum StatusEnum en la tabla Coupons
+            modelBuilder.Entity<Models.Author>()
+                .Property(e => e.Status)
+                .HasConversion<string>();
         
-        modelBuilder.Entity<Book>()
-            .Property(e => e.Status)
-            .HasConversion<string>();
+            modelBuilder.Entity<Book>()
+                .Property(e => e.Status)
+                .HasConversion<string>();
 
-        modelBuilder.Entity<BookBorrow>()
-            .Property(e => e.Status)
-            .HasConversion<string>();
+            modelBuilder.Entity<BookBorrow>()
+                .Property(e => e.BorrowStatus)
+                .HasConversion<string>();
         }
         /* protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

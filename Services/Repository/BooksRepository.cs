@@ -8,6 +8,7 @@ using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
+namespace Books.Services.Repository;
 public class BooksRepository : IBooksRepository
 {
   private readonly BaseContext _context;
