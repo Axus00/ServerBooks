@@ -28,13 +28,15 @@ namespace Books.App.Controllers
                     await _usersRepository.DeleteUserAsync(id);
                     return Ok(new { message = "User marked as removed successfully." });
                 }
-                catch (InvalidOperationException ex)
+                catch (InvalidOperationException)
                 {
-                    return NotFound(new { message = ex.Message });
+                    return NotFound(Utils.Exceptions.StatusError.CreateNotFound());
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    return StatusCode(500, new { message = "An error occurred while removing the user.", details = ex.Message });
+                    var problemDetails = Utils.Exceptions.StatusError.CreateServerError();
+                    return StatusCode(StatusCodes.Status500InternalServerError, problemDetails);
+                    throw;
                 }
             }
 
