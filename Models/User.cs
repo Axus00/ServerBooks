@@ -17,10 +17,7 @@ namespace Books.Models
         [JsonIgnore]
         public List<UserRole>? UserRole { get; set; }
 
-        public static implicit operator User(User v)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
 
