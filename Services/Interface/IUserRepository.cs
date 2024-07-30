@@ -10,7 +10,7 @@ namespace Books.Services.Interface
     {
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByIdAsync(int id);
-        Task<User> CreateUserAsync(UserDTO userDTO);
+        Task<User> CreateUserAsync(UserDTO userDTO, string password);
         Task<User> UpdateUserAsync(int id, UserDTO userDTO);
         Task<User> DeleteUserAsync(int id);
     }

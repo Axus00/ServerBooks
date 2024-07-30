@@ -13,16 +13,17 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DotNetEnv;
+using Books.Utils.PasswordHashing;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers()
-    .AddFluentValidation(cfg => 
+builder.Services.AddControllers();
+/*     .AddFluentValidation(cfg => 
     {
         cfg.RegisterValidatorsFromAssemblyContaining<UserDTOValidator>();
         cfg.RegisterValidatorsFromAssemblyContaining<AdminUserDTOValidator>();
-    }); //K
+    }); //K */
 
 
 // Configure Swagger/OpenAPI
@@ -56,6 +57,7 @@ builder.Services.AddAuthentication(opt => {
 // Dependency Injection
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
+builder.Services.AddScoped<Bcrypt>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailRepository, EmailRepository>();
 builder.Services.AddScoped<IJwtRepository, JwtRepository>(); //K
@@ -67,6 +69,7 @@ builder.Services.AddAutoMapper(typeof(BooksProfile));
 
 // Register FluentValidation validators
 builder.Services.AddTransient<IValidator<UserDTO>, UserDTOValidator>();
+builder.Services.AddTransient<IValidator<AdminUserDTO>, AdminUserDTOValidator>();
 builder.Services.AddTransient<IValidator<BookDTO>, BookDTOValidator>();
 builder.Services.AddTransient<IValidator<AuthorDTO>, AutorDTOValidator>();
 

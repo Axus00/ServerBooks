@@ -8,6 +8,7 @@ using Books.Services.Interface;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Books.Utils.PasswordHashing;
 
 namespace Books.Services.Repository
 {
@@ -15,12 +16,14 @@ namespace Books.Services.Repository
     {
         private readonly BaseContext _context;
         private readonly IMapper _mapper;
+        private readonly Bcrypt _bcrypt;
         string Error { get; set; } = string.Empty;
 
-        public UserRepository(BaseContext context, IMapper mapper)
+        public UserRepository(BaseContext context, IMapper mapper, Bcrypt bcrypt)
         {
             _context = context;
             _mapper = mapper;
+            _bcrypt = bcrypt;
         }
 
         public async Task<IEnumerable<User>> GetAllUsersAsync()
@@ -51,26 +54,35 @@ namespace Books.Services.Repository
             return userById;
         }
 
-        public async Task<User> CreateUserAsync(UserDto userDto)
+        public async Task<User> CreateUserAsync(UserDTO userDTO, string password)
         {
-            if(userDto is null)
+            if(userDTO is null)
             {
-                throw new ArgumentNullException(nameof(userDto), "The user cannot be null");
+                throw new ArgumentNullException(nameof(userDTO), "The user cannot be null");
             }
 
+            string HashedPassword = _bcrypt.HashPassword(password);
+            
+            userDTO.Password = HashedPassword;
 
-            var user = _mapper.Map<User>(userDto);
+            var user = _mapper.Map<User>(userDTO);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            Utils.Exceptions.StatusError.CreateOk();
+
             return user;
+
+            // Se encripta la contraseña
+            //var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDTO.Password); 
         }
 
-        public async Task<User> UpdateUserAsync(int id, UserDto userDto)
+        public async Task<User> UpdateUserAsync(int id, UserDTO userDto)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return null;
 
-            _mapper.Map(userDTO, user);
+            _mapper.Map(userDto, user);
             await _context.SaveChangesAsync();
             return user;
         }
@@ -86,19 +98,6 @@ namespace Books.Services.Repository
                 await _context.SaveChangesAsync();
             }
 
-            return user;
-        }
-
-        //Register 
-        public async Task<User> CreateUserAsync(UserDTO userDTO)
-        {
-            // Se encripta la contraseña
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
-            userDTO.Password = hashedPassword;
-            
-            var user = _mapper.Map<User>(userDTO);
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
             return user;
         }
 
