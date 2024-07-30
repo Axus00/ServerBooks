@@ -17,9 +17,12 @@ public class BooksRepository : IBooksRepository
 
   public async Task<IEnumerable<BookDTO>> GetAllAsync()
   {
-    var data = await _context.Books.ToListAsync();
-    IEnumerable<BookDTO> bookDTOs = _mapper.Map<IEnumerable<BookDTO>>(data);
-    return bookDTOs;
+    var data = await _context.Books
+      .AsNoTracking()
+      .Include(b => b.Authors)
+      .ToListAsync();
+
+    return _mapper.Map<IEnumerable<BookDTO>>(data);
   }
 
   public async Task<BookDTO> GetByIdAsync(int id)

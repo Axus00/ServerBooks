@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Books.Models
 {
     public class Book
@@ -10,7 +12,9 @@ namespace Books.Models
         public int Id {get; set;}
         public string? Name {get; set;}
         public int? AuthorId { get; set;}
-        public Autor? Authors { get; }
+        
+        [ForeignKey("AuthorId")]
+        public Autor? Authors { get; set; }
 
     }
 }

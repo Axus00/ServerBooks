@@ -10,8 +10,5 @@ namespace Books.Models
         public string? Phone { get; set; }
         public int UserId { get; set; }
         public User? User { get; set; } // Relación con la clase User
-
-        [JsonIgnore]
-        public List<User>? Users { get; set; }
     }
 }

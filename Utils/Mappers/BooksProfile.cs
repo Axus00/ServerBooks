@@ -8,8 +8,13 @@ namespace Books.Models.Mappers
   {
     public BooksProfile()
     {
-      CreateMap<Book, BookDTO>();
+      CreateMap<Book, BookDTO>()
+        .ForMember(dest =>
+          dest.Author,
+          opt => opt.MapFrom(src => src.Authors.Name)
+        );
       CreateMap<BookDTO, Book>();
+      // CreateMap<Book, AuthorDTO>();
     }
   }
 }

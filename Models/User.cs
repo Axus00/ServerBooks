@@ -1,14 +1,21 @@
+using System.Text.Json.Serialization;
+
 namespace Books.Models
 {
     public class User
     {
         public int Id { get; set; }
         public string? Names { get; set; }
-        public UserData? UserData { get; set; }
-        public UserRole? UserRole { get; set; }
-        /* public List<UserRole>? UserRoles { get; set; } */ // Lista para múltiples roles
         public string? Status { get; set; }
-        public ICollection<BookBorrow>? BookBorrows { get; set; }
+
+        [JsonIgnore]
+        public List<UserData>? UserDatas { get; set; }
+
+        [JsonIgnore]
+        public List<BookBorrow>? BookBorrows { get; set; }
+
+        [JsonIgnore]
+        public List<UserRole>? UserRole { get; set; }
     }
 }
 
