@@ -27,7 +27,7 @@ namespace Books.App.Controllers.Users
             _userDtoValidator = userDtoValidator;
         }
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] UserDTO userDTO)
+        public async Task<IActionResult> Register(UserDTO userDTO)
         {
             // Validar el DTO
             var result = _userDtoValidator.Validate(userDTO);
