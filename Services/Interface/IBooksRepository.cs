@@ -1,7 +1,6 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Books.Models.DTOs;
 
+namespace Books.Services.Interface;
 public interface IBooksRepository
 {
   Task<IEnumerable<BookDTO>> GetAllAsync();

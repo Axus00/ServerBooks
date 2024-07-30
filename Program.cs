@@ -51,6 +51,7 @@ builder.Services.AddAuthentication(opt => {
 
 // Configuration of the Interface that we will be used
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthorsRepository, AuthorsRepository>();
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailRepository, EmailRepository>();

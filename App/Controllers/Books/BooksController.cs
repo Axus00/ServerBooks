@@ -1,4 +1,5 @@
 using Books.Models.DTOs;
+using Books.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +12,16 @@ namespace Books.App.Controllers.Books
   public class BooksController: ControllerBase
   {
     private readonly IBooksRepository _booksRepository;
-    public BooksController(IBooksRepository studentsService)
+    public BooksController(IBooksRepository booksRepository)
     {
-      _booksRepository = studentsService;
+      _booksRepository = booksRepository;
     }
 
     [HttpGet]
-    [Authorize]
+    /*
+      ## BUG: 91
+      [Authorize] 
+    */
     public async Task<IEnumerable<BookDTO>> GetAll()
     {
       return await _booksRepository.GetAllAsync();
