@@ -42,11 +42,22 @@ namespace Books.App.Controllers
         public async Task<ActionResult<User>> GetUser(int id)
         {
             var user = await _usersRepository.GetUserByIdAsync(id); // Corregido a _usersRepository
-            if (user == null)
+            
+            try
             {
-                return NotFound();
+                if (user == null)
+                {
+                    return NotFound(Utils.Exceptions.StatusError.CreateNotFound());
+                }
+                return Ok(user);
             }
-            return Ok(user);
+            catch (Exception)
+            {
+                var problemDetails = Utils.Exceptions.StatusError.CreateServerError();
+                return StatusCode(StatusCodes.Status500InternalServerError, problemDetails);
+                throw;
+            }
+            
         }
     }
 }
