@@ -27,26 +27,41 @@ namespace Books.Infrastructure.Data
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        // Configuración de las relaciones
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.UserDatas);
+        {
+            // Configuración de las relaciones entre User y UserRole
+            modelBuilder.Entity<UserRole>()
+                .HasOne(ur => ur.User)
+                .WithMany(u => u.UserRoles)
+                .HasForeignKey(ur => ur.UserId);
 
+            modelBuilder.Entity<UserRole>()
+                .HasOne(ur => ur.Role)
+                .WithMany()
+                .HasForeignKey(ur => ur.RoleId);
 
-        modelBuilder.Entity<BookBorrow>()
-            .HasOne(bb => bb.Users)
-            .WithMany()
-            .HasForeignKey(bb => bb.UserId);
+            // Configuración de las relaciones entre User y UserData
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.UserData)
+                .WithOne(ud => ud.User)
+                .HasForeignKey<UserData>(ud => ud.UserId);
 
-        modelBuilder.Entity<BookBorrow>()
-            .HasOne(bb => bb.Books)
-            .WithMany()
-            .HasForeignKey(bb => bb.BookId);
+            // Configuración de las relaciones entre BookBorrow, User y Book
+            modelBuilder.Entity<BookBorrow>()
+                .HasOne(bb => bb.Users)
+                .WithMany(u => u.BookBorrows)
+                .HasForeignKey(bb => bb.UserId);
 
-        modelBuilder.Entity<Book>()
-            .HasOne(b => b.Authors)
-            .WithMany(a => a.Books)
-            .HasForeignKey(b => b.AuthorId);
-    }
+            modelBuilder.Entity<BookBorrow>()
+                .HasOne(bb => bb.Books)
+                .WithMany()
+                .HasForeignKey(bb => bb.BookId);
+
+            // Configuración de las relaciones entre Book y Autor
+            modelBuilder.Entity<Book>()
+                .HasOne(b => b.Authors)
+                .WithMany(a => a.Books)
+                .HasForeignKey(b => b.AuthorId);
+        }
+
     }
 }

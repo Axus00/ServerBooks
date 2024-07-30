@@ -10,3 +10,4 @@ namespace Books.Models
         public ICollection<BookBorrow>? BookBorrows { get; set; }
     }
 }
+
