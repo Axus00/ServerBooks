@@ -54,6 +54,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBooksRepository, BooksRepository>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailRepository, EmailRepository>();
+builder.Services.AddTransient<IExcelExportRepository, ExcelExportRepository>();
 
 
 
