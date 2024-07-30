@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Books.Models
@@ -11,7 +12,9 @@ namespace Books.Models
         public string? Password { get; set; } // K: Cambiado a Password
         public string? Phone { get; set; }
         public int UserId { get; set; }
+
+        [ForeignKey("UserId")]
         public User? User { get; set; } // Relación con la clase User
-        public ICollection<UserRole>? UserRoles { get; set; } // K
+        // public ICollection<UserRole>? UserRoles { get; set; } // K
     }
 }

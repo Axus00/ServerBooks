@@ -182,17 +182,24 @@ namespace Books.Services.Repository
 
         public async Task<string> LoginAsync(string email, string password)
         {
-            var user = await _context.UserDatas
-                .Include(ud => ud.User)
+            var userData = await _context.UserDatas
+                // .Include(ud => ud.User)
                 .FirstOrDefaultAsync(u => u.Email == email);
 
+            User user = await _context.Users
+                .Include(u => u.UserRole)
+                .ThenInclude(r => r.Role)
+                .FirstOrDefaultAsync(u => u.Id == userData.UserId);
+
+            // UserRole userRole = await _context.UserRoles.FirstOrDefaultAsync(x => x.UserId == user.Id);
             /* if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
             {
                 return null;
             } */
+            Role userRole = user.UserRole.FirstOrDefault().Role;
 
             // Generar el token JWT
-            var token = _jwtRepository.GenerateToken(user.Email, user.User.Names, user.UserRoles?.FirstOrDefault()?.Role?.Type ?? "Customer");
+            var token = _jwtRepository.GenerateToken(userData.Email, user.Names, userRole.Type);
 
             return token;
         }
