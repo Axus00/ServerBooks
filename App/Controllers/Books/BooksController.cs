@@ -30,6 +30,7 @@ namespace Books.App.Controllers
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public async Task<BookDTO> GetById(int Id)
     {
       return await _booksRepository.GetByIdAsync(Id);

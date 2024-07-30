@@ -34,6 +34,7 @@ namespace Books.Infrastructure.Data
                 .HasMany(u => u.UserRoles)
                 .WithOne(ur => ur.User)
                 .HasForeignKey(ur => ur.UserId);
+                    
 
             // modelBuilder.Entity<UserRole>()
             //     .HasOne(ur => ur.Role)
