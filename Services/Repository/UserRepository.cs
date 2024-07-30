@@ -24,7 +24,7 @@ namespace Books.Services.Repository
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _context.Users
-                .Include(c => c.UserRoles)
+                .Include(c => c.UserRole)
                 .Include(c => c.UserData)
                 .ToListAsync();
         }
@@ -32,7 +32,7 @@ namespace Books.Services.Repository
         public async Task<User> GetUserByIdAsync(int id)
         {
             return await _context.Users
-                .Include(m => m.UserRoles)
+                .Include(m => m.UserRole)
                 .Include(c => c.UserData)
                 .FirstOrDefaultAsync(c => c.Id == id);
         }

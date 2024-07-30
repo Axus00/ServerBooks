@@ -31,7 +31,7 @@ namespace Books.Infrastructure.Data
             // Configuración de las relaciones entre User y UserRole
             modelBuilder.Entity<UserRole>()
                 .HasOne(ur => ur.User)
-                .WithMany(u => u.UserRoles)
+                .WithMany(u => u.UserRole)
                 .HasForeignKey(ur => ur.UserId);
 
             modelBuilder.Entity<UserRole>()
