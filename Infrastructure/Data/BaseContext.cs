@@ -25,7 +25,22 @@ namespace Books.Infrastructure.Data
         public DbSet<UserData> UserDatas { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserDatas)
+                .WithOne(ud => ud.User)
+                .HasForeignKey(ud => ud.UserId);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserRole)
+                .WithOne(ur => ur.User)
+                .HasForeignKey(ur => ur.UserId);
+
+            // Otros mapeos y configuraciones
+        }
 
         /* protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

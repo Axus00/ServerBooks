@@ -22,7 +22,7 @@ namespace Books.Services.Repository
 
         public string GenerateToken(string email, string name, string role)
         {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(@Environment.GetEnvironmentVariable("SecretKey")));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
@@ -33,8 +33,8 @@ namespace Books.Services.Repository
             };
 
             var tokenOptions = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
+                issuer: @Environment.GetEnvironmentVariable("JwtToken"),
+                audience: @Environment.GetEnvironmentVariable("JwtToken"),
                 claims: claims,
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: signinCredentials
