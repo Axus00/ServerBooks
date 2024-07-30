@@ -28,9 +28,9 @@ namespace Books.Validators
             public UserNameRule()
             {
 
-                RuleFor(user => user.Name).NotNull().WithMessage("The field Names is required");
+                RuleFor(user => user.Names).NotNull().WithMessage("The field Names is required");
 
-                RuleFor(user => user.Name).Must(Names => !OfensiveNames.Contains(Names)).WithMessage("You can't put Last Name ofensive");
+                RuleFor(user => user.Names).Must(Names => !OfensiveNames.Contains(Names)).WithMessage("You can't put Last Name ofensive");
             }
         }
 

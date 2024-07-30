@@ -23,7 +23,8 @@ namespace Books.Infrastructure.Data
         public DbSet<BookBorrow> BookBorrows { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserData> UserDatas { get; set; }
-        public DbSet<UserRole> UserRole { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
+
 
 
         /* protected override void OnModelCreating(ModelBuilder modelBuilder)

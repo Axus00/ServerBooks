@@ -38,14 +38,6 @@ namespace Books.Services.Repository
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<User> CreateUserAsync(UserDTO userDTO)
-        {
-            var user = _mapper.Map<User>(userDTO);
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return user;
-        }
-
         public async Task<User> UpdateUserAsync(int id, UserDTO userDTO)
         {
             var user = await _context.Users.FindAsync(id);
@@ -67,6 +59,19 @@ namespace Books.Services.Repository
                 await _context.SaveChangesAsync();
             }
 
+            return user;
+        }
+
+        //Register 
+        public async Task<User> CreateUserAsync(UserDTO userDTO)
+        {
+            // Se encripta la contraseña
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
+            userDTO.Password = hashedPassword;
+            
+            var user = _mapper.Map<User>(userDTO);
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
             return user;
         }
 
