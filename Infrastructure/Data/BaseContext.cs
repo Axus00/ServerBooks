@@ -35,12 +35,6 @@ namespace Books.Infrastructure.Data
                 .WithOne(ur => ur.User)
                 .HasForeignKey(ur => ur.UserId);
 
-            // Otros mapeos y configuraciones
-        }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
             // Configuración de mapeo para el Enum StatusEnum en la tabla Coupons
             modelBuilder.Entity<Models.Author>()
                 .Property(e => e.Status)
@@ -54,6 +48,7 @@ namespace Books.Infrastructure.Data
                 .Property(e => e.BorrowStatus)
                 .HasConversion<string>();
         }
+        
         /* protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configuración de las relaciones entre User y UserRole
